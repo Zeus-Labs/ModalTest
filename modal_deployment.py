@@ -29,7 +29,7 @@ def example_function():
     print("Entered example function")
 
     process = subprocess.Popen(
-        ["test_script.py"],
+        ["conda", "run", "-n", "example", "python", "test_script.py"],
         cwd="/app",
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,

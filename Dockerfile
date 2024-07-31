@@ -5,6 +5,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Set the working directory
 WORKDIR /app
 
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends wget \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install Miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && \
     bash miniconda.sh -b -p /opt/conda && \
