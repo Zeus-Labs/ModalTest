@@ -46,7 +46,7 @@ def example_function():
     return_code = process.wait()
 
     if return_code:
-        raise subprocess.CalledProcessError(return_code, ["./test_script.py"])
+        raise subprocess.CalledProcessError(return_code, ["conda", "run", "-n", "example", "python", "test_script.py"])
 
 @app.local_entrypoint()
 def main():

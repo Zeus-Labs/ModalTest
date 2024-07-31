@@ -22,8 +22,9 @@ RUN conda create -n example python==3.8.8 && \
 # Activate the example environment
 SHELL ["conda", "run", "-n", "example", "/bin/bash", "-c"]
 
-# Install PyTorch and CUDA dependencies for example environment
+# Install torch and other deps for example environment
 RUN pip install --no-cache-dir torch==2.1.0+cu121 torchvision==0.16.0+cu121 torchaudio==2.1.0 --extra-index-url https://download.pytorch.org/whl/cu121
+RUN pip install loguru
 
 # Deactivate the conda environment
 SHELL ["/bin/bash", "-c"]
