@@ -28,7 +28,7 @@ SHELL ["/bin/bash", "-c"]
 COPY ./test_script.py ./test_script.py
 
 # Pre compile the script to byte code
-RUN conda run -n example python -m compileall . 
+RUN conda run -n example python -m compileall ./test_script.py
 
 # Make test script executable
 RUN chmod +x /app/test_script.py
