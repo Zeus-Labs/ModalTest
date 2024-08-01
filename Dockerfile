@@ -24,13 +24,20 @@ SHELL ["conda", "run", "-n", "example", "/bin/bash", "-c"]
 
 # Install torch and other deps for example environment
 RUN pip install --no-cache-dir torch==2.1.0+cu121 torchvision==0.16.0+cu121 torchaudio==2.1.0 --extra-index-url https://download.pytorch.org/whl/cu121
-RUN pip install loguru
+
+# Install the requirements
+COPY ./requirements.txt .
+RUN pip install --no-cache-dir -r ./requirements.txt
+
+# Install wheels
+COPY ./wheels /wheels
+RUN pip install /wheels/*.whl
 
 # Deactivate the conda environment
 SHELL ["/bin/bash", "-c"]
 
 # Copy the application code
-COPY ./test_script.py ./test_script.py
+COPY . .
 
 # Pre compile the script to byte code
 RUN conda run -n example python -m compileall ./test_script.py
