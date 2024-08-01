@@ -7,7 +7,14 @@ WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends wget \
+    ffmpeg \
+    portaudio19-dev \
+    python3-pyaudio \
+    gcc \
     && rm -rf /var/lib/apt/lists/*
+
+# Create necessary directories
+RUN mkdir -p /app/example
 
 # Install Miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && \
@@ -24,16 +31,20 @@ SHELL ["conda", "run", "-n", "example", "/bin/bash", "-c"]
 
 # Install torch and other deps for example environment
 RUN pip install --no-cache-dir torch==2.1.0+cu121 torchvision==0.16.0+cu121 torchaudio==2.1.0 --extra-index-url https://download.pytorch.org/whl/cu121
-RUN pip install loguru
+
+# Install the requirements
+COPY ./example/requirements.txt ./example
+RUN pip install --no-cache-dir -r ./example/requirements.txt
+
+# Install wheels
+COPY ./example/wheels /wheels
+RUN pip install /wheels/*.whl
 
 # Deactivate the conda environment
 SHELL ["/bin/bash", "-c"]
 
 # Copy the application code
-COPY ./test_script.py ./test_script.py
+COPY . .
 
 # Pre compile the script to byte code
-RUN conda run -n example python -m compileall ./test_script.py
-
-# Make test script executable
-RUN chmod +x /app/test_script.py
+RUN conda run -n example python -m compileall ./example
