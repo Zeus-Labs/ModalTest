@@ -15,7 +15,7 @@ dockerfile_image = modal.Image.from_dockerfile(
         remote_path=".",
     ),
 ).run_commands([
-    f"cd /app && conda run -n example python data_preprocessing.py --destination_tensor_file_path /app/torso_imgs_tensor.pt"
+    f"cd /app/example && conda run -n example python data_preprocessing.py --destination_tensor_file_path /app/example/torso_imgs_tensor.pt"
 ])
 
 # .run_commands([
@@ -34,7 +34,7 @@ def example_function():
 
     process = subprocess.Popen(
         ["conda", "run", "-n", "example", "--no-capture-output", "python", "-u", "test_script.py"],
-        cwd="/app",
+        cwd="/app/example",
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
@@ -52,7 +52,7 @@ def example_function():
     if return_code:
         raise subprocess.CalledProcessError(
             return_code,
-            ["conda", "run", "-n", "example", "--no-capture-output", "python", "-u", "test_script.py"]
+            ["conda", "run", "-n", "example", "--no-capture-output", "python", "-u", "test_script.py"],
         )
 
 @app.local_entrypoint()

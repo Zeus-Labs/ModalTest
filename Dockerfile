@@ -30,11 +30,11 @@ SHELL ["conda", "run", "-n", "example", "/bin/bash", "-c"]
 RUN pip install --no-cache-dir torch==2.1.0+cu121 torchvision==0.16.0+cu121 torchaudio==2.1.0 --extra-index-url https://download.pytorch.org/whl/cu121
 
 # Install the requirements
-COPY ./requirements.txt .
-RUN pip install --no-cache-dir -r ./requirements.txt
+COPY ./example/requirements.txt ./example
+RUN pip install --no-cache-dir -r ./example/requirements.txt
 
 # Install wheels
-COPY ./wheels /wheels
+COPY ./example/wheels /wheels
 RUN pip install /wheels/*.whl
 
 # Deactivate the conda environment
@@ -44,7 +44,4 @@ SHELL ["/bin/bash", "-c"]
 COPY . .
 
 # Pre compile the script to byte code
-RUN conda run -n example python -m compileall ./test_script.py
-
-# Make test script executable
-RUN chmod +x /app/test_script.py
+RUN conda run -n example python -m compileall ./example
