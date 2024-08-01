@@ -15,7 +15,7 @@ dockerfile_image = modal.Image.from_dockerfile(
         remote_path=".",
     ),
 ).run_commands([
-    [f"cd /app && conda run -n example python data_preprocessing.py --destination_tensor_file_path /app/torso_imgs_tensor.pt"]
+    f"cd /app && conda run -n example python data_preprocessing.py --destination_tensor_file_path /app/torso_imgs_tensor.pt"
 ])
 
 # .run_commands([
