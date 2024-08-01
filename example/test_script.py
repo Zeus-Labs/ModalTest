@@ -1,14 +1,13 @@
 print("Inside test_script.py")
 from loguru import logger
+import sys
 logger.remove(0)
 logger.add(sys.stderr, level="DEBUG")
 logger.debug("logger set up")
 
-import os
 
 # Simulating imports before torch import
 # Imports in main_asr_stream.py before torch
-import sys
 import argparse
 import asyncio
 
