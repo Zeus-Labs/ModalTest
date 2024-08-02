@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package streaming;
+
+service StreamingService {
+  rpc StreamAudioVideo (stream AudioRequest) returns (stream VideoResponse) {}
+}
+
+message AudioRequest {
+  bytes audio_data = 1;
+}
+
+message VideoResponse {
+  bytes video_data = 1;
+}
+
+// python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. streaming.proto
